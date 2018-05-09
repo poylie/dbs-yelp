@@ -3,6 +3,7 @@ package main
 import (
 	// Import the gorilla/mux library we just installed
 	"fmt"
+	"io/ioutil"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -41,5 +42,18 @@ func main() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
+
+	client := &http.Client{}
+	req, _ := http.NewRequest("GET", "https://api.yelp.com/v3/businesses/search?term=starbucks&location=Singapore", nil)
+	req.Header.Set("Authorization", "Bearer VNBosgLfAisHadcgnVbBUUawb--mf61EurggtiBUDcdG-StSyzuwQ39yk0n5OGMIbKxcjFlhaHh8c0YNIrbUmv-UXRaHtYNqcEAkrQ8c-5UMXUerZj85DoRZqU3yWnYx")
+	response, err := client.Do(req)
+
+	if err != nil {
+		fmt.Printf("The HTTP request failed with error %s\n", err)
+	} else {
+		data, _ := ioutil.ReadAll(response.Body)
+		fmt.Fprintf(w, string(data))
+	}
+
 	fmt.Fprintf(w, "Hello World!")
 }
