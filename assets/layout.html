@@ -1,0 +1,18 @@
+<h1>Result<h1>
+    <table>
+
+        {{range .Business}}
+            <tr>
+                <td>
+                {{.Name}}
+                </td>
+                {{with .Location -}}
+                <td>
+                {{.Address1}}
+                {{.Address2}}
+                </td>
+                {{- end}}
+            </tr>
+        {{end}}
+
+    </table>
